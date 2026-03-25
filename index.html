@@ -7,39 +7,45 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
+  html, body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 14px;
     color: #1a1a2e;
     background: #ffffff;
-    padding: 20px 20px 12px;
+    /* No fixed height — let content dictate */
+    overflow: visible;
   }
 
-  h2 { font-size: 18px; font-weight: 600; margin-bottom: 3px; color: #1a1a2e; }
-  .subtitle { font-size: 12px; color: #6b7280; margin-bottom: 16px; }
+  body { padding: 16px 18px 10px; }
+
+  h2 { font-size: 17px; font-weight: 600; margin-bottom: 2px; color: #1a1a2e; }
+  .subtitle { font-size: 11px; color: #6b7280; margin-bottom: 12px; }
 
   .section {
     background: #f9fafb;
     border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 14px;
+    border-radius: 8px;
+    padding: 10px 14px 12px;
+    margin-bottom: 12px;
   }
 
-  .section h3 { font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .section h3 {
+    font-size: 11px; font-weight: 600; color: #374151;
+    margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em;
+  }
 
-  .controls-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
+  .controls-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
 
-  .ctrl { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 110px; }
+  .ctrl { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 100px; }
 
   .ctrl label {
-    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
     letter-spacing: 0.05em; color: #6b7280;
   }
 
   input[type=number], select {
-    padding: 7px 10px; font-size: 14px;
-    border: 1px solid #d1d5db; border-radius: 7px;
+    padding: 6px 8px; font-size: 13px;
+    border: 1px solid #d1d5db; border-radius: 6px;
     background: #fff; color: #1a1a2e; width: 100%; outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
   }
@@ -49,64 +55,64 @@
     box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
   }
 
-  .hint { font-size: 11px; color: #9ca3af; margin-top: 8px; }
+  .hint { font-size: 10px; color: #9ca3af; margin-top: 6px; }
 
-  .results { margin-bottom: 14px; }
+  .results { margin-bottom: 10px; }
 
   .vm-badge {
-    display: inline-flex; align-items: center; gap: 8px;
+    display: inline-flex; align-items: center; gap: 6px;
     background: #eff6ff; border: 1px solid #bfdbfe;
-    border-radius: 8px; padding: 8px 14px; margin-bottom: 12px;
+    border-radius: 7px; padding: 6px 12px; margin-bottom: 10px;
   }
 
-  .vm-badge .vm-name { font-size: 15px; font-weight: 700; color: #1d4ed8; }
-  .vm-badge .vm-specs { font-size: 12px; color: #3b82f6; }
+  .vm-badge .vm-name { font-size: 14px; font-weight: 700; color: #1d4ed8; }
+  .vm-badge .vm-specs { font-size: 11px; color: #3b82f6; }
 
   .cards {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 8px;
   }
 
   .card {
     background: #f3f4f6;
-    border-radius: 9px;
-    padding: 12px 14px;
+    border-radius: 8px;
+    padding: 10px 12px;
     position: relative;
   }
 
   .card.primary { background: #eff6ff; border: 1.5px solid #2563eb; }
 
   .badge {
-    position: absolute; top: -9px; left: 10px;
-    font-size: 10px; font-weight: 600;
+    position: absolute; top: -8px; left: 8px;
+    font-size: 9px; font-weight: 600;
     background: #2563eb; color: #fff;
-    padding: 1px 7px; border-radius: 20px;
+    padding: 1px 6px; border-radius: 20px;
   }
 
   .card-label {
-    font-size: 10px; font-weight: 600; text-transform: uppercase;
-    letter-spacing: 0.05em; color: #6b7280; margin-bottom: 5px;
+    font-size: 9px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: #6b7280; margin-bottom: 4px;
   }
 
   .card.primary .card-label { color: #2563eb; }
 
-  .card-price { font-size: 19px; font-weight: 700; color: #1a1a2e; line-height: 1.1; }
+  .card-price { font-size: 17px; font-weight: 700; color: #1a1a2e; line-height: 1.1; }
   .card.primary .card-price { color: #1d4ed8; }
 
-  .card-period { font-size: 11px; color: #9ca3af; margin-left: 1px; }
+  .card-period { font-size: 10px; color: #9ca3af; margin-left: 1px; }
   .card.primary .card-period { color: #3b82f6; }
 
-  .card-savings { font-size: 11px; color: #16a34a; margin-top: 3px; font-weight: 500; }
+  .card-savings { font-size: 10px; color: #16a34a; margin-top: 2px; font-weight: 500; }
   .card.primary .card-savings { color: #2563eb; }
 
   .no-match {
     background: #fef9c3; border: 1px solid #fde047;
-    border-radius: 8px; padding: 10px 14px;
-    font-size: 13px; color: #854d0e;
+    border-radius: 7px; padding: 8px 12px;
+    font-size: 12px; color: #854d0e;
   }
 
-  .footer-note { font-size: 11px; color: #9ca3af; margin-top: 10px; }
+  .footer-note { font-size: 10px; color: #9ca3af; margin-top: 8px; }
 
   @media (max-width: 500px) {
     .cards { grid-template-columns: repeat(2, 1fr); }
@@ -156,13 +162,26 @@ const VMs = [
 
 const modelLabel = {
   payg: "Pay as you go",
-  r1y: "1 year reserved (~41% savings)",
-  r3y: "3 years reserved (~62% savings)",
+  r1y: "1 yr reserved (~41% savings)",
+  r3y: "3 yr reserved (~62% savings)",
   spot: "Spot (~79% savings)"
 };
 
 function fmt(n) { return "\u20ac" + n.toFixed(2); }
 function pct(payg, price) { return Math.round((1 - price / payg) * 100); }
+
+/* ── Auto-resize: tell the parent iframe how tall we are ── */
+function notifyParentHeight() {
+  const h = document.documentElement.scrollHeight;
+  // Method 1: postMessage (works cross-origin)
+  try { window.parent.postMessage({ type: 'resize-iframe', height: h }, '*'); } catch(e) {}
+  // Method 2: Confluence-specific — try to resize the iframe directly
+  try {
+    if (window.frameElement) {
+      window.frameElement.style.height = h + 'px';
+    }
+  } catch(e) {}
+}
 
 function calculate() {
   const cpu = parseInt(document.getElementById("cpu-input").value) || 1;
@@ -173,6 +192,7 @@ function calculate() {
 
   if (!match) {
     out.innerHTML = `<div class="no-match">No VM found in Easv5-series matching your requirements. Consider E32as v5 or a higher series.</div>`;
+    requestAnimationFrame(notifyParentHeight);
     return;
   }
 
@@ -212,9 +232,14 @@ function calculate() {
       </div>`}
     </div>
   `;
+
+  requestAnimationFrame(notifyParentHeight);
 }
 
 calculate();
+// Also notify on load
+window.addEventListener('load', notifyParentHeight);
+window.addEventListener('resize', notifyParentHeight);
 </script>
 </body>
 </html>
