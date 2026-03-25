@@ -12,69 +12,35 @@
     font-size: 14px;
     color: #1a1a2e;
     background: #ffffff;
-    padding: 20px;
+    padding: 20px 20px 12px;
   }
 
-  h2 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 4px;
-    color: #1a1a2e;
-  }
-
-  .subtitle {
-    font-size: 12px;
-    color: #6b7280;
-    margin-bottom: 20px;
-  }
+  h2 { font-size: 18px; font-weight: 600; margin-bottom: 3px; color: #1a1a2e; }
+  .subtitle { font-size: 12px; color: #6b7280; margin-bottom: 16px; }
 
   .section {
     background: #f9fafb;
     border: 1px solid #e5e7eb;
     border-radius: 10px;
-    padding: 16px;
-    margin-bottom: 16px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
   }
 
-  .section h3 {
-    font-size: 13px;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 12px;
-  }
+  .section h3 { font-size: 12px; font-weight: 600; color: #374151; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
 
-  .controls-row {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: flex-end;
-  }
+  .controls-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; }
 
-  .ctrl {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    flex: 1;
-    min-width: 110px;
-  }
+  .ctrl { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 110px; }
 
   .ctrl label {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #6b7280;
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: #6b7280;
   }
 
   input[type=number], select {
-    padding: 8px 10px;
-    font-size: 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 7px;
-    background: #ffffff;
-    color: #1a1a2e;
-    width: 100%;
-    outline: none;
+    padding: 7px 10px; font-size: 14px;
+    border: 1px solid #d1d5db; border-radius: 7px;
+    background: #fff; color: #1a1a2e; width: 100%; outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
   }
 
@@ -83,139 +49,67 @@
     box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
   }
 
-  button {
-    padding: 8px 20px;
-    background: #2563eb;
-    color: #fff;
-    border: none;
-    border-radius: 7px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    height: 38px;
-    white-space: nowrap;
-    transition: background 0.15s;
+  .hint { font-size: 11px; color: #9ca3af; margin-top: 8px; }
+
+  .results { margin-bottom: 14px; }
+
+  .vm-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #eff6ff; border: 1px solid #bfdbfe;
+    border-radius: 8px; padding: 8px 14px; margin-bottom: 12px;
   }
 
-  button:hover { background: #1d4ed8; }
-  button:active { background: #1e40af; }
-
-  .hint {
-    font-size: 11px;
-    color: #9ca3af;
-    margin-top: 8px;
-  }
-
-  .vm-info {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 14px;
-  }
-
-  .vm-info-item .lbl {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #9ca3af;
-    margin-bottom: 2px;
-  }
-
-  .vm-info-item .val {
-    font-size: 14px;
-    font-weight: 600;
-    color: #1a1a2e;
-  }
+  .vm-badge .vm-name { font-size: 15px; font-weight: 700; color: #1d4ed8; }
+  .vm-badge .vm-specs { font-size: 12px; color: #3b82f6; }
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
-    margin-bottom: 14px;
   }
 
   .card {
     background: #f3f4f6;
     border-radius: 9px;
-    padding: 14px;
+    padding: 12px 14px;
     position: relative;
   }
 
-  .card.primary {
-    background: #eff6ff;
-    border: 1.5px solid #2563eb;
-  }
+  .card.primary { background: #eff6ff; border: 1.5px solid #2563eb; }
 
   .badge {
-    position: absolute;
-    top: -10px;
-    left: 12px;
-    font-size: 10px;
-    font-weight: 600;
-    background: #2563eb;
-    color: #fff;
-    padding: 2px 8px;
-    border-radius: 20px;
-    letter-spacing: 0.03em;
+    position: absolute; top: -9px; left: 10px;
+    font-size: 10px; font-weight: 600;
+    background: #2563eb; color: #fff;
+    padding: 1px 7px; border-radius: 20px;
   }
 
-  .card .card-label {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #6b7280;
-    margin-bottom: 5px;
+  .card-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.05em; color: #6b7280; margin-bottom: 5px;
   }
 
   .card.primary .card-label { color: #2563eb; }
 
-  .card .card-price {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1a1a2e;
-    line-height: 1.1;
-  }
-
+  .card-price { font-size: 19px; font-weight: 700; color: #1a1a2e; line-height: 1.1; }
   .card.primary .card-price { color: #1d4ed8; }
 
-  .card .card-period {
-    font-size: 12px;
-    color: #9ca3af;
-    margin-left: 2px;
-  }
-
+  .card-period { font-size: 11px; color: #9ca3af; margin-left: 1px; }
   .card.primary .card-period { color: #3b82f6; }
 
-  .card .card-savings {
-    font-size: 11px;
-    color: #16a34a;
-    margin-top: 4px;
-    font-weight: 500;
-  }
-
+  .card-savings { font-size: 11px; color: #16a34a; margin-top: 3px; font-weight: 500; }
   .card.primary .card-savings { color: #2563eb; }
 
-  .divider {
-    border: none;
-    border-top: 1px solid #e5e7eb;
-    margin: 12px 0;
-  }
-
-  .footer-note {
-    font-size: 11px;
-    color: #9ca3af;
-  }
-
   .no-match {
-    font-size: 13px;
-    color: #6b7280;
-    padding: 8px 0;
+    background: #fef9c3; border: 1px solid #fde047;
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 13px; color: #854d0e;
+  }
+
+  .footer-note { font-size: 11px; color: #9ca3af; margin-top: 10px; }
+
+  @media (max-width: 500px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -229,27 +123,28 @@
   <div class="controls-row">
     <div class="ctrl">
       <label>vCPU (min)</label>
-      <input type="number" id="cpu-input" min="1" max="64" value="4" />
+      <input type="number" id="cpu-input" min="1" max="64" value="4" oninput="calculate()" />
     </div>
     <div class="ctrl">
       <label>RAM GiB (min)</label>
-      <input type="number" id="ram-input" min="1" max="512" value="16" />
+      <input type="number" id="ram-input" min="1" max="512" value="16" oninput="calculate()" />
     </div>
     <div class="ctrl">
       <label>Pricing model</label>
-      <select id="model-select">
+      <select id="model-select" onchange="calculate()">
         <option value="payg">Pay as you go</option>
         <option value="r1y">1 year reserved</option>
         <option value="r3y" selected>3 years reserved</option>
         <option value="spot">Spot</option>
       </select>
     </div>
-    <button onclick="calculate()">Calculate</button>
   </div>
-  <p class="hint">The calculator will select the smallest VM that meets your requirements.</p>
+  <p class="hint">Results update automatically as you change the values above.</p>
 </div>
 
-<div id="output"></div>
+<div class="results" id="output"></div>
+
+<p class="footer-note">All prices are net EUR &middot; Data: Azure pricing (Easv5-series, Ubuntu, West Europe, March 2025)</p>
 
 <script>
 const VMs = [
@@ -267,12 +162,7 @@ const modelLabel = {
 };
 
 function fmt(n) { return "\u20ac" + n.toFixed(2); }
-function savings(payg, price) { return Math.round((1 - price / payg) * 100); }
-
-function sendHeight() {
-  const h = document.body.scrollHeight;
-  window.parent.postMessage({ type: "resize", height: h }, "*");
-}
+function pct(payg, price) { return Math.round((1 - price / payg) * 100); }
 
 function calculate() {
   const cpu = parseInt(document.getElementById("cpu-input").value) || 1;
@@ -282,30 +172,26 @@ function calculate() {
   const out = document.getElementById("output");
 
   if (!match) {
-    out.innerHTML = '<p class="no-match">No VM found matching your requirements in the Easv5 series. Consider E32as v5 or higher.</p>';
-    setTimeout(sendHeight, 50);
+    out.innerHTML = `<div class="no-match">No VM found in Easv5-series matching your requirements. Consider E32as v5 or a higher series.</div>`;
     return;
   }
 
   const monthly = match[model];
-  const yearly = monthly * 12;
-  const daily = monthly / 30;
-  const sv = model !== "payg" ? savings(match.payg, monthly) : null;
+  const yearly  = monthly * 12;
+  const daily   = monthly / 30;
+  const sv      = model !== "payg" ? pct(match.payg, monthly) : null;
 
   out.innerHTML = `
-    <div class="vm-info">
-      <div class="vm-info-item"><div class="lbl">VM</div><div class="val">${match.name}</div></div>
-      <div class="vm-info-item"><div class="lbl">vCPU</div><div class="val">${match.vcpu}</div></div>
-      <div class="vm-info-item"><div class="lbl">RAM</div><div class="val">${match.ram} GiB</div></div>
-      <div class="vm-info-item"><div class="lbl">Temp storage</div><div class="val">0 GiB</div></div>
-      <div class="vm-info-item"><div class="lbl">Pricing model</div><div class="val">${modelLabel[model]}</div></div>
+    <div class="vm-badge">
+      <span class="vm-name">${match.name}</span>
+      <span class="vm-specs">${match.vcpu} vCPU &middot; ${match.ram} GiB RAM &middot; ${modelLabel[model]}</span>
     </div>
     <div class="cards">
       <div class="card primary">
         <div class="badge">selected</div>
         <div class="card-label">Monthly</div>
         <div class="card-price">${fmt(monthly)}<span class="card-period">/mo</span></div>
-        ${sv ? `<div class="card-savings">~${sv}% cheaper than PAYG</div>` : ""}
+        ${sv ? `<div class="card-savings">~${sv}% vs PAYG</div>` : ""}
       </div>
       <div class="card">
         <div class="card-label">Yearly</div>
@@ -315,22 +201,20 @@ function calculate() {
         <div class="card-label">Daily</div>
         <div class="card-price">${fmt(daily)}<span class="card-period">/day</span></div>
       </div>
-      ${model !== "payg" ? `<div class="card">
-        <div class="card-label">PAYG (comparison)</div>
+      ${model !== "payg" ? `
+      <div class="card">
+        <div class="card-label">PAYG comparison</div>
         <div class="card-price">${fmt(match.payg)}<span class="card-period">/mo</span></div>
-      </div>` : ""}
+      </div>` : `
+      <div class="card">
+        <div class="card-label">Hourly</div>
+        <div class="card-price">${fmt(monthly/730)}<span class="card-period">/hr</span></div>
+      </div>`}
     </div>
-    <hr class="divider" />
-    <p class="footer-note">All prices are net EUR. Data: Azure pricing (Easv5-series, Ubuntu, West Europe, March 2025).</p>
   `;
-
-  setTimeout(sendHeight, 50);
 }
 
 calculate();
-
-window.addEventListener("load", sendHeight);
-window.addEventListener("resize", sendHeight);
 </script>
 </body>
 </html>
