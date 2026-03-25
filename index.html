@@ -5,100 +5,68 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Azure VM Price Calculator</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    font-size: 13px;
-    color: #1a1a2e;
-    background: #fff;
-    overflow: hidden;
-  }
-  body { padding: 10px 14px 8px; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#1a1a2e;background:#fff}
+body{padding:12px 16px 10px}
 
-  .header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
-  .header h2 { font-size: 15px; font-weight: 700; white-space: nowrap; }
-  .header .sub { font-size: 10px; color: #6b7280; }
+.hdr{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
+.hdr h2{font-size:15px;font-weight:700}
+.hdr .sub{font-size:10px;color:#6b7280}
 
-  .top { display: flex; gap: 8px; align-items: flex-end; margin-bottom: 10px; }
-  .top .ctrl { display: flex; flex-direction: column; gap: 2px; }
-  .top .ctrl label {
-    font-size: 9px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.05em; color: #6b7280;
-  }
-  .top input, .top select {
-    padding: 4px 6px; font-size: 13px;
-    border: 1px solid #d1d5db; border-radius: 5px;
-    background: #fff; color: #1a1a2e; outline: none;
-    width: 90px;
-  }
-  .top select { width: 145px; }
-  .top input:focus, .top select:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 0 2px rgba(37,99,235,0.10);
-  }
+.row{display:flex;gap:10px;align-items:flex-end;margin-bottom:12px;flex-wrap:wrap}
+.fld{display:flex;flex-direction:column;gap:2px}
+.fld label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6b7280}
+.fld input,.fld select{padding:5px 7px;font-size:13px;border:1px solid #d1d5db;border-radius:5px;background:#fff;color:#1a1a2e;outline:none}
+.fld input{width:80px}
+.fld select{width:150px}
+.fld input:focus,.fld select:focus{border-color:#2563eb;box-shadow:0 0 0 2px rgba(37,99,235,.1)}
 
-  .vm-line {
-    display: flex; align-items: center; gap: 8px;
-    margin-bottom: 8px;
-    padding: 5px 10px;
-    background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px;
-  }
-  .vm-line .name { font-weight: 700; color: #1d4ed8; font-size: 14px; }
-  .vm-line .specs { font-size: 11px; color: #3b82f6; }
+.vm{display:flex;align-items:center;gap:8px;padding:5px 10px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;margin-bottom:8px}
+.vm .n{font-weight:700;color:#1d4ed8;font-size:14px}
+.vm .s{font-size:11px;color:#3b82f6}
 
-  .prices {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-  }
-  .p-card {
-    background: #f3f4f6; border-radius: 6px;
-    padding: 7px 9px;
-  }
-  .p-card.hi { background: #eff6ff; border: 1.5px solid #2563eb; }
-  .p-label {
-    font-size: 9px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.04em; color: #6b7280; margin-bottom: 2px;
-  }
-  .p-card.hi .p-label { color: #2563eb; }
-  .p-val { font-size: 16px; font-weight: 700; color: #1a1a2e; line-height: 1.15; }
-  .p-card.hi .p-val { color: #1d4ed8; }
-  .p-per { font-size: 9px; color: #9ca3af; }
-  .p-card.hi .p-per { color: #3b82f6; }
-  .p-sv { font-size: 9px; color: #16a34a; font-weight: 600; margin-top: 1px; }
+.g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.c{background:#f3f4f6;border-radius:6px;padding:7px 9px}
+.c.hi{background:#eff6ff;border:1.5px solid #2563eb}
+.cl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#6b7280;margin-bottom:2px}
+.c.hi .cl{color:#2563eb}
+.cv{font-size:16px;font-weight:700;color:#1a1a2e;line-height:1.15}
+.c.hi .cv{color:#1d4ed8}
+.cp{font-size:9px;color:#9ca3af}
+.c.hi .cp{color:#3b82f6}
+.cs{font-size:9px;color:#16a34a;font-weight:600;margin-top:1px}
 
-  .no-match {
-    background: #fef9c3; border: 1px solid #fde047;
-    border-radius: 6px; padding: 7px 10px;
-    font-size: 12px; color: #854d0e;
-  }
+.nm{background:#fef9c3;border:1px solid #fde047;border-radius:6px;padding:7px 10px;font-size:12px;color:#854d0e}
+.ft{font-size:9px;color:#b0b0b0;margin-top:8px}
 
-  .foot { font-size: 9px; color: #b0b0b0; margin-top: 6px; }
+@media(max-width:420px){.g{grid-template-columns:repeat(2,1fr)}}
 
-  @media (max-width: 420px) {
-    .prices { grid-template-columns: repeat(2, 1fr); }
-  }
+/* noscript fallback table */
+.ns-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.ns-tbl th,.ns-tbl td{border:1px solid #d1d5db;padding:4px 8px;text-align:right}
+.ns-tbl th{background:#f3f4f6;text-align:left;font-size:10px;text-transform:uppercase}
+.ns-tbl td:first-child,.ns-tbl th:first-child{text-align:left}
 </style>
 </head>
 <body>
 
-<div class="header">
+<div class="hdr">
   <h2>Azure VM Price Calculator</h2>
-  <span class="sub">Easv5 &middot; Ubuntu &middot; West Europe &middot; EUR</span>
+  <span class="sub">Easv5 · Ubuntu · West Europe · EUR</span>
 </div>
 
-<div class="top">
-  <div class="ctrl">
+<div class="row">
+  <div class="fld">
     <label>vCPU min</label>
-    <input type="number" id="cpu" min="1" max="64" value="4" oninput="calc()" />
+    <input type="number" id="cpu" min="1" max="64" value="4" />
   </div>
-  <div class="ctrl">
+  <div class="fld">
     <label>RAM GiB min</label>
-    <input type="number" id="ram" min="1" max="512" value="16" oninput="calc()" />
+    <input type="number" id="ram" min="1" max="512" value="16" />
   </div>
-  <div class="ctrl">
+  <div class="fld">
     <label>Pricing</label>
-    <select id="mdl" onchange="calc()">
+    <select id="mdl">
       <option value="payg">Pay as you go</option>
       <option value="r1y">1 yr reserved</option>
       <option value="r3y" selected>3 yr reserved</option>
@@ -107,63 +75,90 @@
   </div>
 </div>
 
-<div id="out"></div>
+<!-- Static default content (visible immediately even if JS blocked) -->
+<div id="out">
+  <div class="vm">
+    <span class="n">E4as v5</span>
+    <span class="s">4 vCPU · 32 GiB · 3yr res.</span>
+  </div>
+  <div class="g">
+    <div class="c hi">
+      <div class="cl">Monthly</div>
+      <div class="cv">€65.16<span class="cp">/mo</span></div>
+      <div class="cs">-62% vs PAYG</div>
+    </div>
+    <div class="c">
+      <div class="cl">Yearly</div>
+      <div class="cv">€781.89<span class="cp">/yr</span></div>
+    </div>
+    <div class="c">
+      <div class="cl">Daily</div>
+      <div class="cv">€2.17<span class="cp">/day</span></div>
+    </div>
+    <div class="c">
+      <div class="cl">PAYG equiv.</div>
+      <div class="cv">€171.48<span class="cp">/mo</span></div>
+    </div>
+  </div>
+</div>
 
-<div class="foot">Prices net EUR &middot; Azure Easv5-series, Ubuntu, West Europe, Mar 2025 &middot; 1 USD = 0.86 EUR</div>
+<noscript>
+<p style="color:#854d0e;font-size:11px;margin-top:6px;">⚠ JavaScript is disabled — interactive controls won't work. Static prices below:</p>
+<table class="ns-tbl">
+  <tr><th>VM</th><th>vCPU</th><th>RAM</th><th>PAYG/mo</th><th>1yr/mo</th><th>3yr/mo</th><th>Spot/mo</th></tr>
+  <tr><td>E2as v5</td><td>2</td><td>16 GiB</td><td>€85.74</td><td>€50.58</td><td>€32.58</td><td>€17.47</td></tr>
+  <tr><td>E4as v5</td><td>4</td><td>32 GiB</td><td>€171.48</td><td>€101.17</td><td>€65.16</td><td>€34.93</td></tr>
+  <tr><td>E8as v5</td><td>8</td><td>64 GiB</td><td>€342.97</td><td>€202.33</td><td>€130.34</td><td>€69.86</td></tr>
+  <tr><td>E16as v5</td><td>16</td><td>128 GiB</td><td>€685.94</td><td>€404.74</td><td>€260.65</td><td>€139.73</td></tr>
+</table>
+</noscript>
+
+<div class="ft">Prices net EUR · Azure Easv5, Ubuntu, West Europe, Mar 2025 · 1 USD ≈ 0.86 EUR</div>
 
 <script>
-const D=[
+(function(){
+var D=[
   {n:"E2as v5",c:2,r:16,payg:85.7425,r1y:50.583,r3y:32.5789,spot:17.4658},
   {n:"E4as v5",c:4,r:32,payg:171.4849,r1y:101.166,r3y:65.1578,spot:34.9316},
   {n:"E8as v5",c:8,r:64,payg:342.9698,r1y:202.332,r3y:130.3393,spot:69.8632},
-  {n:"E16as v5",c:16,r:128,payg:685.9396,r1y:404.7354,r3y:260.6548,spot:139.7258},
+  {n:"E16as v5",c:16,r:128,payg:685.9396,r1y:404.7354,r3y:260.6548,spot:139.7258}
 ];
-const L={payg:"PAYG",r1y:"1yr res.",r3y:"3yr res.",spot:"Spot"};
-const f=n=>"\u20ac"+n.toFixed(2);
-const sv=(a,b)=>Math.round((1-b/a)*100);
+var L={payg:"PAYG",r1y:"1yr res.",r3y:"3yr res.",spot:"Spot"};
+function f(n){return"\u20ac"+n.toFixed(2)}
+function sv(a,b){return Math.round((1-b/a)*100)}
 
 function calc(){
-  const cpu=parseInt(document.getElementById("cpu").value)||1;
-  const ram=parseInt(document.getElementById("ram").value)||1;
-  const m=document.getElementById("mdl").value;
-  const vm=D.find(v=>v.c>=cpu&&v.r>=ram);
-  const o=document.getElementById("out");
+  var cpu=parseInt(document.getElementById("cpu").value)||1;
+  var ram=parseInt(document.getElementById("ram").value)||1;
+  var m=document.getElementById("mdl").value;
+  var vm,i;
+  for(i=0;i<D.length;i++){if(D[i].c>=cpu&&D[i].r>=ram){vm=D[i];break;}}
+  var o=document.getElementById("out");
 
-  if(!vm){o.innerHTML='<div class="no-match">No match in Easv5 — consider E32as v5 or higher.</div>';return;}
+  if(!vm){o.innerHTML='<div class="nm">No match in Easv5 — consider E32as v5 or higher.</div>';return;}
 
-  const mo=vm[m], yr=mo*12, dy=mo/30;
-  const s=m!=="payg"?sv(vm.payg,mo):null;
-
-  let c4;
+  var mo=vm[m],yr=mo*12,dy=mo/30;
+  var s=m!=="payg"?sv(vm.payg,mo):null;
+  var c4;
   if(m!=="payg"){
-    c4=`<div class="p-card"><div class="p-label">PAYG equiv.</div><div class="p-val">${f(vm.payg)}<span class="p-per">/mo</span></div></div>`;
-  } else {
-    c4=`<div class="p-card"><div class="p-label">Hourly</div><div class="p-val">${f(mo/730)}<span class="p-per">/hr</span></div></div>`;
+    c4='<div class="c"><div class="cl">PAYG equiv.</div><div class="cv">'+f(vm.payg)+'<span class="cp">/mo</span></div></div>';
+  }else{
+    c4='<div class="c"><div class="cl">Hourly</div><div class="cv">'+f(mo/730)+'<span class="cp">/hr</span></div></div>';
   }
 
-  o.innerHTML=`
-    <div class="vm-line">
-      <span class="name">${vm.n}</span>
-      <span class="specs">${vm.c} vCPU &middot; ${vm.r} GiB &middot; ${L[m]}</span>
-    </div>
-    <div class="prices">
-      <div class="p-card hi">
-        <div class="p-label">Monthly</div>
-        <div class="p-val">${f(mo)}<span class="p-per">/mo</span></div>
-        ${s?`<div class="p-sv">-${s}% vs PAYG</div>`:""}
-      </div>
-      <div class="p-card">
-        <div class="p-label">Yearly</div>
-        <div class="p-val">${f(yr)}<span class="p-per">/yr</span></div>
-      </div>
-      <div class="p-card">
-        <div class="p-label">Daily</div>
-        <div class="p-val">${f(dy)}<span class="p-per">/day</span></div>
-      </div>
-      ${c4}
-    </div>`;
+  o.innerHTML='<div class="vm"><span class="n">'+vm.n+'</span><span class="s">'+vm.c+' vCPU · '+vm.r+' GiB · '+L[m]+'</span></div>'+
+    '<div class="g">'+
+    '<div class="c hi"><div class="cl">Monthly</div><div class="cv">'+f(mo)+'<span class="cp">/mo</span></div>'+(s?'<div class="cs">-'+s+'% vs PAYG</div>':'')+'</div>'+
+    '<div class="c"><div class="cl">Yearly</div><div class="cv">'+f(yr)+'<span class="cp">/yr</span></div></div>'+
+    '<div class="c"><div class="cl">Daily</div><div class="cv">'+f(dy)+'<span class="cp">/day</span></div></div>'+
+    c4+
+    '</div>';
 }
-calc();
+
+document.getElementById("cpu").addEventListener("input",calc);
+document.getElementById("ram").addEventListener("input",calc);
+document.getElementById("mdl").addEventListener("change",calc);
+})();
 </script>
 </body>
 </html>
