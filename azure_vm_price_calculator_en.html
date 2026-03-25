@@ -1,0 +1,168 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans, system-ui, sans-serif); }
+.calc-wrap { padding: 1.5rem 0; max-width: 860px; }
+.header { margin-bottom: 1.5rem; }
+.header h2 { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.header p { font-size: 13px; color: var(--color-text-secondary); }
+.controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+.ctrl-group { display: flex; flex-direction: column; gap: 6px; }
+.ctrl-group label { font-size: 12px; color: var(--color-text-secondary); font-weight: 500; letter-spacing: 0.03em; text-transform: uppercase; }
+select, input[type=number] {
+  padding: 8px 10px; font-size: 14px; border-radius: var(--border-radius-md, 8px);
+  border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary);
+  color: var(--color-text-primary); width: 100%; outline: none;
+}
+select:focus, input:focus { box-shadow: 0 0 0 2px rgba(55,138,221,0.3); border-color: #378ADD; }
+.result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+.result-card {
+  background: var(--color-background-secondary); border-radius: var(--border-radius-md, 8px);
+  padding: 1rem; position: relative;
+}
+.result-card.highlight { background: var(--color-background-info); border: 1.5px solid #378ADD; }
+.result-card .badge {
+  position: absolute; top: -10px; left: 12px; font-size: 11px; font-weight: 500;
+  background: #378ADD; color: #fff; padding: 2px 8px; border-radius: 20px;
+}
+.result-card .plan-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+.result-card.highlight .plan-label { color: #185FA5; }
+.result-card .price { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+.result-card.highlight .price { color: #185FA5; }
+.result-card .period { font-size: 12px; color: var(--color-text-secondary); margin-left: 2px; }
+.result-card.highlight .period { color: #185FA5; }
+.result-card .savings { font-size: 12px; margin-top: 4px; color: #3B6D11; }
+.result-card.highlight .savings { color: #185FA5; }
+.vm-info {
+  background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg, 12px); padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+  display: flex; gap: 24px; flex-wrap: wrap;
+}
+.vm-info-item { display: flex; flex-direction: column; gap: 2px; }
+.vm-info-item .lbl { font-size: 11px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+.vm-info-item .val { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.custom-section {
+  background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg, 12px); padding: 1rem 1.25rem; margin-bottom: 1.5rem;
+}
+.custom-section h3 { font-size: 14px; font-weight: 500; margin-bottom: 12px; color: var(--color-text-primary); }
+.custom-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.custom-row .ctrl-group { flex: 1; min-width: 120px; }
+.custom-row button {
+  padding: 8px 18px; background: #378ADD; color: #fff; border: none; border-radius: var(--border-radius-md, 8px);
+  font-size: 14px; cursor: pointer; white-space: nowrap; height: 36px;
+}
+.custom-row button:hover { background: #185FA5; }
+.note { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; }
+.divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.25rem 0; }
+.no-match { font-size: 14px; color: var(--color-text-secondary); padding: 1rem 0; }
+</style>
+
+<div class="calc-wrap">
+  <div class="header">
+    <h2>Azure VM Price Calculator</h2>
+    <p>Easv5-series · Ubuntu · West Europe · EUR (1 USD = 0.86 EUR)</p>
+  </div>
+
+  <div class="custom-section">
+    <h3>Select your requirements</h3>
+    <div class="custom-row">
+      <div class="ctrl-group">
+        <label>vCPU (min)</label>
+        <input type="number" id="cpu-input" min="1" max="64" value="4" />
+      </div>
+      <div class="ctrl-group">
+        <label>RAM GiB (min)</label>
+        <input type="number" id="ram-input" min="1" max="512" value="16" />
+      </div>
+      <div class="ctrl-group">
+        <label>Pricing model</label>
+        <select id="model-select">
+          <option value="payg">Pay as you go</option>
+          <option value="r1y">1 year reserved</option>
+          <option value="r3y" selected>3 years reserved</option>
+          <option value="spot">Spot</option>
+        </select>
+      </div>
+      <button onclick="calculate()">Calculate</button>
+    </div>
+    <p class="note">The calculator will select the smallest VM that meets your requirements.</p>
+  </div>
+
+  <div id="output"></div>
+</div>
+
+<script>
+const VMs = [
+  { name: "E2as v5", vcpu: 2,  ram: 16,  payg: 85.7425,  r1y: 50.5830,  r3y: 32.5789,  spot: 17.4658 },
+  { name: "E4as v5", vcpu: 4,  ram: 32,  payg: 171.4849, r1y: 101.1660, r3y: 65.1578,  spot: 34.9316 },
+  { name: "E8as v5", vcpu: 8,  ram: 64,  payg: 342.9698, r1y: 202.3320, r3y: 130.3393, spot: 69.8632 },
+  { name: "E16as v5",vcpu: 16, ram: 128, payg: 685.9396, r1y: 404.7354, r3y: 260.6548, spot: 139.7258 },
+];
+
+const modelLabel = {
+  payg: "Pay as you go",
+  r1y: "1 year reserved (~41% savings)",
+  r3y: "3 years reserved (~62% savings)",
+  spot: "Spot (~79% savings)"
+};
+
+function savings(payg, price) {
+  return Math.round((1 - price / payg) * 100);
+}
+
+function fmt(n) { return "€" + n.toFixed(2); }
+
+function calculate() {
+  const cpu = parseInt(document.getElementById("cpu-input").value) || 1;
+  const ram = parseInt(document.getElementById("ram-input").value) || 1;
+  const model = document.getElementById("model-select").value;
+
+  const match = VMs.find(v => v.vcpu >= cpu && v.ram >= ram);
+  const out = document.getElementById("output");
+
+  if (!match) {
+    out.innerHTML = '<p class="no-match">No VM found matching your requirements in the Easv5 series. Consider E32as v5 or higher.</p>';
+    return;
+  }
+
+  const monthly = match[model];
+  const yearly = monthly * 12;
+  const daily = monthly / 30;
+  const sv = model !== "payg" ? savings(match.payg, monthly) : null;
+
+  out.innerHTML = `
+    <div class="vm-info">
+      <div class="vm-info-item"><span class="lbl">VM</span><span class="val">${match.name}</span></div>
+      <div class="vm-info-item"><span class="lbl">vCPU</span><span class="val">${match.vcpu}</span></div>
+      <div class="vm-info-item"><span class="lbl">RAM</span><span class="val">${match.ram} GiB</span></div>
+      <div class="vm-info-item"><span class="lbl">Temp storage</span><span class="val">0 GiB</span></div>
+      <div class="vm-info-item"><span class="lbl">Pricing model</span><span class="val">${modelLabel[model]}</span></div>
+    </div>
+    <div class="result-grid">
+      <div class="result-card highlight">
+        <div class="badge">selected</div>
+        <div class="plan-label">Monthly</div>
+        <div class="price">${fmt(monthly)}<span class="period">/mo</span></div>
+        ${sv ? `<div class="savings">~${sv}% cheaper than PAYG</div>` : ""}
+      </div>
+      <div class="result-card">
+        <div class="plan-label">Yearly</div>
+        <div class="price">${fmt(yearly)}<span class="period">/yr</span></div>
+      </div>
+      <div class="result-card">
+        <div class="plan-label">Daily</div>
+        <div class="price">${fmt(daily)}<span class="period">/day</span></div>
+      </div>
+      ${model !== "payg" ? `<div class="result-card">
+        <div class="plan-label">PAYG (comparison)</div>
+        <div class="price">${fmt(match.payg)}<span class="period">/mo</span></div>
+      </div>` : ""}
+    </div>
+    <hr class="divider">
+    <p class="note">All prices are net EUR. Data: Azure pricing (Easv5-series, Ubuntu, West Europe, March 2025).</p>
+  `;
+}
+
+calculate();
+</script>
